@@ -12,9 +12,8 @@ from shutil import copyfile
 
 logger = logging.getLogger(__name__)
 
+@zope.interface.implementer(interfaces.IInstaller)
 class ProxmoxInstaller(common.Plugin):
-    zope.interface.implements(interfaces.IInstaller)
-    zope.interface.classProvides(interfaces.IPluginFactory)
 
     description = "Proxmox VE plugin for Let's Encrypt client"
 
@@ -107,3 +106,5 @@ class ProxmoxInstaller(common.Plugin):
                     execute_command(['service', path, 'restart'])
                     return
             logging.error("Did not find the PVE API Proxy Server so it could not be restarted")
+
+zope.interface.directlyProvides(ProxmoxInstaller,interfaces.IPluginFactory)
